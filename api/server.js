@@ -2,6 +2,9 @@ const express = require("express")
 const helmet = require("helmet")
 const cors = require("cors")
 
+//Route imports 
+const userRouter = require('./users/users-router')
+
 /**
   Do what needs to be done to support sessions with the `express-session` package!
   To respect users' privacy, do NOT send them a cookie unless they log in.
@@ -21,9 +24,16 @@ server.use(helmet())
 server.use(express.json())
 server.use(cors())
 
+//ROUTES 
+server.use('/api/users', userRouter)
+
+
 server.get("/", (req, res) => {
- res.status(200).json('Welcome to the Node Auth1 project server! 😃 See all registered users at /api/users, and regiter your own account at /api/auth 🤩')
-})  
+ res.status(200).json('Welcome to the Node Auth1 project server! 😃 Head to /api to get started.')
+}) 
+server.get("/api", (req, res) => {
+  res.status(200).json('Hello, this is the API! See all registered users at /api/users , and register your own account at /api/auth 🤩')
+ }) 
 
 server.use((err, req, res, next) => { // eslint-disable-line
   res.status(err.status || 500).json({
